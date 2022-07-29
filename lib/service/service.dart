@@ -23,6 +23,21 @@ class Service extends IService {
   }
 
   @override
+  Future<String> getPassword() async {
+    try {
+      final response = await dio.get(
+        "/password",
+      );
+      if (response.statusCode == HttpStatus.ok) {
+        return (response.data as String);
+      }
+    } on Exception {
+      return '';
+    }
+    return '';
+  }
+
+  @override
   Future<bool> deleteRecord(String id) async {
     final response = await dio.delete(
       "$endpoint/$id",

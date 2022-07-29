@@ -16,55 +16,157 @@ class AdminPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return scaffold(context);
+  }
+
+  Scaffold scaffold(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(title),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //title
-              const Text(
-                'Başlık',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              titleField(),
-              //body
-              const Text(
-                'İçerik',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              bodyField(),
-              //author
-              const Text(
-                'Yazar',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              authorField(),
-              //category - group
-              categoryGroupText(),
-              categoryGroupFields(),
-              //add button
-              addButton(context),
-              //info text
-              const SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: Text(
-                  context.watch<ControllerCubit>().info,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 20),
+      body: Stack(
+        children: [
+          Visibility(
+            visible: context.watch<ControllerCubit>().passwordValid,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //title
+                    const Text(
+                      'Başlık',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    titleField(),
+                    //body
+                    const Text(
+                      'İçerik',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    bodyField(),
+                    //author
+                    const Text(
+                      'Yazar',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    authorField(),
+                    //category - group
+                    categoryGroupText(),
+                    categoryGroupFields(),
+                    //add button
+                    addButton(context),
+                    //info text
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Center(
+                      child: Text(
+                        context.watch<ControllerCubit>().info,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+          Visibility(
+            visible: !context.watch<ControllerCubit>().passwordValid,
+            child: Center(
+              child: Container(
+                height: 250,
+                width: 500,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.blue,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Parola',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: 400,
+                        child: TextField(
+                          obscureText: true,
+                          controller: context
+                              .watch<ControllerCubit>()
+                              .passwordController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                width: 3,
+                                color: Colors.blue,
+                              ),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: 400,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<ControllerCubit>().getPassword();
+                          },
+                          child: Stack(
+                            children: [
+                              Visibility(
+                                visible: !context
+                                    .watch<ControllerCubit>()
+                                    .isPasswordLoading,
+                                child: const Text(
+                                  'Giriş',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              Visibility(
+                                visible: context
+                                    .watch<ControllerCubit>()
+                                    .isPasswordLoading,
+                                child: const CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(context.watch<ControllerCubit>().passwordInfo),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

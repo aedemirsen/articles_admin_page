@@ -10,6 +10,8 @@ abstract class IService {
 
   Future<List<Record>> getRecords({String params = ''});
 
+  Future<String> getPassword();
+
   Future<bool> deleteRecord(String id);
 
   Future<bool> postRecord(Record record);
