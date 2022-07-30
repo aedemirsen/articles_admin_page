@@ -13,9 +13,13 @@ class AdminPage extends StatelessWidget {
   TextEditingController authorController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
   TextEditingController groupController = TextEditingController();
+  TextEditingController miladiController = TextEditingController();
+  TextEditingController hicriController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    miladiController.text =
+        "${DateTime.now().day}.${DateTime.now().month}.${DateTime.now().year}";
     return scaffold(context);
   }
 
@@ -29,57 +33,72 @@ class AdminPage extends StatelessWidget {
       body: Stack(
         children: [
           Visibility(
-            visible: context.watch<ControllerCubit>().passwordValid,
+            visible: true, //context.watch<ControllerCubit>().passwordValid,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    //title
-                    const Text(
-                      'Başlık',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    titleField(),
-                    //body
-                    const Text(
-                      'İçerik',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    bodyField(),
-                    //author
-                    const Text(
-                      'Yazar',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    authorField(),
-                    //category - group
-                    categoryGroupText(),
-                    categoryGroupFields(),
-                    //add button
-                    addButton(context),
-                    //info text
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Text(
-                        context.watch<ControllerCubit>().info,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                    Flexible(
+                      flex: 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //title
+                          const Text(
+                            'Başlık',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          titleField(),
+                          //body
+                          const Text(
+                            'İçerik',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          bodyField(),
+                          //author
+                          const Text(
+                            'Yazar',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          authorField(),
+                          //category - group
+                          categoryGroupText(),
+                          categoryGroupFields(),
+                          //date hicri - miladi
+                          dateMiladiHicriText(),
+                          dateMiladiHicriFields(),
+                          //add button
+                          addButton(context),
+                          //info text
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Center(
+                            child: Text(
+                              context.watch<ControllerCubit>().info,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    // Flexible(
+                    //   child: Column(
+                    //     children: [],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
             ),
           ),
           Visibility(
-            visible: !context.watch<ControllerCubit>().passwordValid,
+            visible: false, //!context.watch<ControllerCubit>().passwordValid,
             child: Center(
               child: Container(
                 height: 250,
@@ -185,9 +204,8 @@ class AdminPage extends StatelessWidget {
             record.author = authorController.text;
             record.category = categoryController.text;
             record.group = groupController.text;
-            record.dateMiladi =
-                "${DateTime.now().day}.${DateTime.now().month}.${DateTime.now().year}";
-            record.dateHicri = '';
+            record.dateMiladi = miladiController.text;
+            record.dateHicri = hicriController.text;
             context.read<ControllerCubit>().addRecord(record);
           },
           child: Stack(
@@ -250,6 +268,72 @@ class AdminPage extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row dateMiladiHicriFields() {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 20.0),
+            child: TextField(
+              controller: miladiController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    width: 3,
+                    color: Colors.blue,
+                  ),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          width: 30,
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 20.0),
+            child: TextField(
+              controller: hicriController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    width: 3,
+                    color: Colors.blue,
+                  ),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row dateMiladiHicriText() {
+    return Row(
+      children: const [
+        Expanded(
+          child: Text(
+            'Miladi Tarih',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+        ),
+        SizedBox(
+          width: 30,
+        ),
+        Expanded(
+          child: Text(
+            'Hicri Tarih',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
       ],
