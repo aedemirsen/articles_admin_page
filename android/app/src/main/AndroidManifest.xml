@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.articles_admin_page">
+<uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="articles_admin_page"
         android:name="${applicationName}"

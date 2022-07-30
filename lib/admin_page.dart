@@ -25,7 +25,7 @@ class AdminPage extends StatelessWidget {
 
   Scaffold scaffold(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(title),
         centerTitle: true,
