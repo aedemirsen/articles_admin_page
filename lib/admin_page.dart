@@ -33,7 +33,7 @@ class AdminPage extends StatelessWidget {
       body: Stack(
         children: [
           Visibility(
-            visible: true, //context.watch<ControllerCubit>().passwordValid,
+            visible: context.watch<ControllerCubit>().passwordValid,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: SingleChildScrollView(
@@ -98,7 +98,7 @@ class AdminPage extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: false, //!context.watch<ControllerCubit>().passwordValid,
+            visible: !context.watch<ControllerCubit>().passwordValid,
             child: Center(
               child: Container(
                 height: 250,
