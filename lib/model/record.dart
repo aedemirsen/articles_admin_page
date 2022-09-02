@@ -3,7 +3,7 @@ class Record {
   String? body;
   String? dateHicri;
   String? dateMiladi;
-  String? category;
+  String? categories;
   String? author;
   String? group;
 
@@ -12,7 +12,7 @@ class Record {
       this.body,
       this.dateHicri,
       this.dateMiladi,
-      this.category,
+      this.categories,
       this.author,
       this.group});
 
@@ -21,7 +21,7 @@ class Record {
     body = json['body'];
     dateHicri = json['dateHicri'];
     dateMiladi = json['dateMiladi'];
-    category = json['category'];
+    categories = json['category'];
     author = json['author'];
     group = json['group'];
   }
@@ -32,7 +32,7 @@ class Record {
     data['body'] = body;
     data['dateHicri'] = dateHicri;
     data['dateMiladi'] = dateMiladi;
-    data['category'] = category;
+    data['category'] = categories;
     data['author'] = author;
     data['group'] = group;
     return data;

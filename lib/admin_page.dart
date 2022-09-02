@@ -99,87 +99,90 @@ class AdminPage extends StatelessWidget {
           ),
           Visibility(
             visible: !context.watch<ControllerCubit>().passwordValid,
-            child: Center(
-              child: Container(
-                height: 250,
-                width: 500,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.blue,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20),
+              child: Center(
+                child: Container(
+                  height: 250,
+                  width: 500,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blue,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Parola',
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: 400,
-                        child: TextField(
-                          obscureText: true,
-                          controller: context
-                              .watch<ControllerCubit>()
-                              .passwordController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                width: 3,
-                                color: Colors.blue,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Parola',
+                          style: TextStyle(fontSize: 30),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: 400,
+                          child: TextField(
+                            obscureText: true,
+                            controller: context
+                                .watch<ControllerCubit>()
+                                .passwordController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  width: 3,
+                                  color: Colors.blue,
+                                ),
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                              borderRadius: BorderRadius.circular(5),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        height: 50,
-                        width: 400,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            context.read<ControllerCubit>().getPassword();
-                          },
-                          child: Stack(
-                            children: [
-                              Visibility(
-                                visible: !context
-                                    .watch<ControllerCubit>()
-                                    .isPasswordLoading,
-                                child: const Text(
-                                  'Giriş',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 50,
+                          width: 400,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              context.read<ControllerCubit>().getPassword();
+                            },
+                            child: Stack(
+                              children: [
+                                Visibility(
+                                  visible: !context
+                                      .watch<ControllerCubit>()
+                                      .isPasswordLoading,
+                                  child: const Text(
+                                    'Giriş',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Visibility(
-                                visible: context
-                                    .watch<ControllerCubit>()
-                                    .isPasswordLoading,
-                                child: const CircularProgressIndicator(
-                                  color: Colors.white,
+                                Visibility(
+                                  visible: context
+                                      .watch<ControllerCubit>()
+                                      .isPasswordLoading,
+                                  child: const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(context.watch<ControllerCubit>().passwordInfo),
-                    ],
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(context.watch<ControllerCubit>().passwordInfo),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -199,13 +202,13 @@ class AdminPage extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             Record record = Record();
-            record.title = titleController.text;
-            record.body = bodyController.text;
-            record.author = authorController.text;
-            record.category = categoryController.text;
-            record.group = groupController.text;
-            record.dateMiladi = miladiController.text;
-            record.dateHicri = hicriController.text;
+            record.title = titleController.text.trim();
+            record.body = bodyController.text.trim();
+            record.author = authorController.text.trim();
+            record.categories = categoryController.text.trim();
+            record.group = groupController.text.trim();
+            record.dateMiladi = miladiController.text.trim();
+            record.dateHicri = hicriController.text.trim();
             context.read<ControllerCubit>().addRecord(record);
           },
           child: Stack(
